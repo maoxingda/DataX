@@ -15,7 +15,7 @@ public enum DataBaseType {
     DRDS("drds", "com.mysql.jdbc.Driver"),
     Oracle("oracle", "oracle.jdbc.OracleDriver"),
     SQLServer("sqlserver", "com.microsoft.sqlserver.jdbc.SQLServerDriver"),
-    PostgreSQL("postgresql", "org.postgresql.Driver"),
+    PostgreSQL("postgresql", "com.amazon.redshift.jdbc42.Driver"),
     RDBMS("rdbms", "com.alibaba.datax.plugin.rdbms.util.DataBaseType"),
     DB2("db2", "com.ibm.db2.jcc.DB2Driver"),
     ADS("ads","com.mysql.jdbc.Driver"),

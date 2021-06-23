@@ -14,6 +14,7 @@ import io.searchbox.client.JestResult;
 import io.searchbox.core.Bulk;
 import io.searchbox.core.BulkResult;
 import io.searchbox.core.Index;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -302,8 +303,12 @@ public class ESWriter extends Writer {
                 date = formatter.withZone(dtz).parseDateTime(column.asString());
                 return date.toString();
             } else if (column.getType() == Column.Type.DATE) {
-                date = new DateTime(column.asLong(), dtz);
-                return date.toString();
+                if (column.asLong() != null) {
+                    date = new DateTime(column.asLong(), dtz);
+                    return date.toString();
+                } else {
+                    return null;
+                }
             } else {
                 return column.asString();
             }
@@ -342,7 +347,10 @@ public class ESWriter extends Writer {
                             case DATE:
                                 try {
                                     String dateStr = getDateStr(columnList.get(i), column);
-                                    data.put(columnName, dateStr);
+                                    if (StringUtils.isNotBlank(dateStr))
+                                    {
+                                        data.put(columnName, dateStr);
+                                    }
                                 } catch (Exception e) {
                                     getTaskPluginCollector().collectDirtyRecord(record, String.format("时间类型解析失败 [%s:%s] exception: %s", columnName, column.toString(), e.toString()));
                                 }
